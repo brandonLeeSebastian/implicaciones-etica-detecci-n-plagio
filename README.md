@@ -1,2 +1,2 @@
-infograf-a-plagio-ia
+# infograf-a-plagio-ia
 proyecto de investigación I

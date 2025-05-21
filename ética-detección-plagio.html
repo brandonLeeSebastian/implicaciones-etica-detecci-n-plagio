@@ -51,6 +51,7 @@
 
         html {
             scroll-behavior: smooth;
+            font-size: 16px;
         }
 
         body {
@@ -78,7 +79,7 @@
             cursor: pointer;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             transition: background .3s;
-            font: 1em;
+            font: 1rem;
         }
 
         button#themeToggle:hover {
@@ -96,10 +97,14 @@
 
         header h1 {
             margin: 0;
-            font-size: 2.8em;
+            font-size: 2.5rem;
             letter-spacing: 1px;
             user-select: none;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        p{
+            font-size: 1rem;
         }
 
         /* Container for cards */
@@ -134,7 +139,7 @@
         }
 
         .card h2 {
-            font-size: 2em;
+            font-size: 2rem;
             color: var(--card-title-color);
             margin-bottom: 12px;
             user-select: none;
@@ -151,7 +156,7 @@
             color: var(--tooltip-color);
             border-radius: 10px;
             padding: 15px;
-            font-size: .95em;
+            font-size: 1rem;
             line-height: 1.5;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
             opacity: 0;
@@ -242,8 +247,17 @@
 
         /* Responsive */
         @media (max-width:600px) {
+            
+            html{
+                font-size: 14px; /* 14px */
+            }
+
             header h1 {
-                font-size: 2.2em;
+                font-size: 2rem; /* 28px */
+            }
+            
+            p{
+                font-size: 1rem; /* 14px */
             }
 
             .tooltip {
@@ -393,7 +407,7 @@
         <img src="assets/infografía.png" alt="Infografía de Riesgos y Buenas Prácticas" class="infographic-img" />
         <br>
 
-        <h3>Repositorio en GitHub</h3>
+        <h1>Repositorio en GitHub</h1>
         <p>Clona nuestro repositorio para obtener todo el código fuente, estilos y documentos de apoyo:</p>
         <a href="https://github.com/brandonsh9/infograf-a-plagio-ia/tree/main" target="_blank">
             🔗 github.com/brandonsh9/infograf-a-plagio-ia

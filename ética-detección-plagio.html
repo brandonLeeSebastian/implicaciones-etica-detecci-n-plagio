@@ -6,7 +6,6 @@
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <title>Implicaciones éticas de la detección automatizada de plagio en la educación universitaria.</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
@@ -40,18 +39,8 @@
             --footer-text: #cccccc;
         }
 
-        /* * {
+        * {
             box-sizing: border-box;
-        } */
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            font-size: 16px;
         }
 
         body {
@@ -63,8 +52,8 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            flex-direction: column;
-            min-height: 100vh;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: justify;
         }
 
         button#themeToggle {
@@ -80,13 +69,9 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             transition: background .3s;
             font: 1rem;
+            z-index: 1100;
         }
 
-        button#themeToggle:hover {
-            background: var(--btn-hover);
-        }
-
-        /* Header */
         header {
             text-align: center;
             padding: 40px 20px;
@@ -103,11 +88,6 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        p{
-            font-size: 1rem;
-        }
-
-        /* Container for cards */
         .container {
             flex: 1;
             display: flex;
@@ -117,7 +97,6 @@
             gap: 30px;
         }
 
-        /* Cards */
         .card {
             background: var(--card-bg);
             border-radius: 16px;
@@ -146,36 +125,56 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        /* Tooltip */
         .tooltip {
-            position: absolute;
-            top: 60px;
-            left: 20px;
-            right: 20px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
             background: var(--tooltip-bg);
             color: var(--tooltip-color);
-            border-radius: 10px;
-            padding: 15px;
-            font-size: 1rem;
-            line-height: 1.5;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 90%;
+            width: 500px;
             opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: opacity .3s, transform .3s;
-            z-index: 10;
-            max-height: 300px;
-            overflow-y: auto;
+            pointer-events: none;
+            transition: all 0.3s ease;
         }
 
         .tooltip.active {
             opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: auto;
         }
 
+        .tooltip .close {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--tooltip-color);
+        }
 
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
 
+        .overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
         /* Button */
         button {
@@ -234,7 +233,6 @@
             -webkit-user-drag: none;
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 20px;
@@ -242,22 +240,28 @@
             color: var(--footer-text);
             border-top: 1px solid #e0e0e0;
             user-select: none;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
         }
+
+
 
         /* Responsive */
         @media (max-width:600px) {
-            
-            html{
-                font-size: 14px; /* 14px */
+
+            html {
+                font-size: 14px;
+                /* 14px */
             }
 
             header h1 {
-                font-size: 2rem; /* 28px */
+                font-size: 2rem;
+                /* 28px */
             }
-            
-            p{
-                font-size: 1rem; /* 14px */
+
+            p {
+                font-size: 1rem;
+                /* 14px */
+                /* text-align: justify; */
             }
 
             .tooltip {
@@ -268,6 +272,7 @@
 </head>
 
 <body>
+    <div class="overlay" id="overlay" onclick="closeTooltip()"></div>
     <button id="themeToggle" aria-label="Cambiar tema">🌙</button>
     <header>
         <h1>Riesgos y Buenas Prácticas en Detección de Plagio con IA</h1>
@@ -276,99 +281,105 @@
     <div class="container">
         <div class="card" onclick="toggleTooltip('tooltip1')">
             <h2>🌐 Discriminación Lingüística</h2>
-            <div class="tooltip" id="tooltip1">
-                <p>
-                    <strong>⚠️ Riesgo:</strong> Falsos positivos en textos de hablantes no nativos o con variaciones
-                    dialectales.<br>
-                    <strong>✅ Práctica:</strong> Ajustar dinámicamente los umbrales de similitud y configurar perfiles
-                    lingüísticos
-                    por idioma o región.
-                </p>
-            </div>
         </div>
         <div class="card" onclick="toggleTooltip('tooltip2')">
             <h2>❌ Errores de Detección</h2>
-            <div class="tooltip" id="tooltip2">
-                <p>
-                    <strong>⚠️ Riesgo:</strong> Fragmentos legítimos (citas, fórmulas, frases hechas) marcados
-                    incorrectamente como
-                    “plagio”.<br>
-                    <strong>✅ Práctica:</strong> Excluir automáticamente secciones citadas y referencias en la
-                    comparación
-                    algorítmica.
-                </p>
-            </div>
         </div>
         <div class="card" onclick="toggleTooltip('tooltip3')">
             <h2>🔒 Protección de la Privacidad Estudiantil</h2>
-            <div class="tooltip" id="tooltip3">
-                <p>
-                    <strong>⚠️ Riesgo:</strong> Almacenamiento indefinido de trabajos académicos y posible uso indebido
-                    de
-                    datos.<br>
-                    <strong>✅ Práctica:</strong> Implementar políticas claras de retención, dar opción de eliminación y
-                    solicitar
-                    consentimiento informado.
-                </p>
-            </div>
         </div>
         <div class="card" onclick="toggleTooltip('tooltip4')">
             <h2>🔍 Transparencia Algorítmica</h2>
-            <div class="tooltip" id="tooltip4">
-                <p>
-                    <strong>⚠️ Riesgo:</strong> Usuarios desconocen los criterios y parámetros que usa el detector.<br>
-                    <strong>✅ Práctica:</strong> Publicar versiones de los algoritmos, umbrales y corpus de referencia
-                    en
-                    formato
-                    abierto (JSON‑LD), en otras palabras, no se trata de mantener el algoritmo como una "caja negra",
-                    sino de
-                    poner a disposición de todos la información necesaria para que se pueda entender, verificar y
-                    auditar cómo y
-                    por qué el algoritmo toma ciertas decisiones. Esto ayuda a que tanto expertos como el público en
-                    general
-                    puedan revisar y asegurarse de que el sistema opera de manera justa, sin errores ni sesgos injustos.
-                </p>
-            </div>
         </div>
         <div class="card" onclick="toggleTooltip('tooltip5')">
             <h2>👩‍🏫 Responsabilidad Docente</h2>
-            <div class="tooltip" id="tooltip5">
-                <p>
-                    <strong>⚠️ Riesgo:</strong> Decisiones automatizadas sin revisión ni apelación humana.<br>
-                    <strong>✅ Práctica:</strong> Exigir siempre una segunda validación por parte de un profesor
-                    documentada en
-                    bitácora.
-                </p>
-            </div>
         </div>
         <div class="card" onclick="toggleTooltip('tooltip6')">
             <h2>🤖 Dependencia Tecnológica</h2>
-            <div class="tooltip" id="tooltip6">
-                <p>
-                    <strong>⚠️ Riesgo:</strong> Estudiantes delegan todo el juicio crítico en la IA, perdiendo
-                    habilidades
-                    de redacción y cita.<br>
-                    <strong>✅ Práctica:</strong> Combinar el uso de detectores con talleres de formación en pensamiento
-                    crítico y técnicas de citación.
-                </p>
-            </div>
         </div>
         <div class="card" onclick="toggleTooltip('tooltip7')">
             <h2>🎯 Enfoque en Cumplimiento en Lugar de Aprendizaje</h2>
-            <div class="tooltip" id="tooltip7">
-                <p>
-                    <strong>⚠️ Riesgo:</strong> Una alta dependencia de herramientas automáticas puede fomentar una
-                    cultura
-                    centrada en “no ser detectado” más que en aprender buenas prácticas de citación, convirtiendo el
-                    proceso en un ejercicio de cumplimiento normativo eficiente pero vacío de sentido educativo.<br>
-                    <strong>✅ Práctica:</strong> Integrar el detector como herramienta formativa, proporcionando
-                    reportes
-                    detallados de similitud acompañados de guías de mejora, y vinculándolo a actividades de
-                    retroalimentación donde el estudiante revise y aprenda a citar correctamente antes de entregar la
-                    versión final.
-                </p>
-            </div>
         </div>
+    </div>
+
+    <div class="tooltip" id="tooltip1">
+        <span class="close" onclick="closeTooltip()">&times;</span>
+        <p>
+            <strong>⚠️ Riesgo:</strong> Falsos positivos en textos de hablantes no nativos o con variaciones
+            dialectales.<br><br>
+            <strong>✅ Práctica:</strong> Ajustar dinámicamente los umbrales de similitud y configurar perfiles
+            lingüísticos
+            por idioma o región.
+        </p>
+    </div>
+    <div class="tooltip" id="tooltip2">
+        <span class="close" onclick="closeTooltip()">&times;</span>
+        <p>
+            <strong>⚠️Riesgo:</strong> Fragmentos legítimos (citas, fórmulas, frases hechas) marcados
+            incorrectamente como
+            “plagio”.<br><br>
+            <strong>✅Práctica:</strong> Excluir automáticamente secciones citadas y referencias en la
+            comparación
+            algorítmica.
+        </p>
+    </div>
+    <div class="tooltip" id="tooltip3">
+        <span class="close" onclick="closeTooltip()">&times;</span>
+        <p>
+            <strong>⚠️Riesgo:</strong> Almacenamiento indefinido de trabajos académicos y posible uso indebido
+            de datos.<br><br>
+            <strong>✅Práctica:</strong> Implementar políticas claras de retención, dar opción de eliminación y
+            solicitar
+            consentimiento informado.
+        </p>
+    </div>
+    <div class="tooltip" id="tooltip4">
+        <span class="close" onclick="closeTooltip()">&times;</span>
+        <p>
+            <strong>⚠️ Riesgo:</strong> Usuarios desconocen los criterios y parámetros que usa el detector.<br><br>
+            <strong>✅ Práctica:</strong> Publicar versiones de los algoritmos, umbrales y corpus de referencia
+            en
+            formato
+            abierto (JSON‑LD), en otras palabras, no se trata de mantener el algoritmo como una "caja negra",
+            sino de
+            poner a disposición de todos la información necesaria para que se pueda entender, verificar y
+            auditar cómo y
+            por qué el algoritmo toma ciertas decisiones. Esto ayuda a que tanto expertos como el público en
+            general
+            puedan revisar y asegurarse de que el sistema opera de manera justa, sin errores ni sesgos injustos.
+        </p>
+    </div>
+    <div class="tooltip" id="tooltip5">
+        <span class="close" onclick="closeTooltip()">&times;</span>
+        <p>
+            <strong>⚠️Riesgo: </strong> Decisiones automatizadas sin revisión ni apelación humana.<br><br>
+            <strong>✅Práctica: </strong> Exigir siempre una segunda validación por parte de un profesor
+            documentada en
+            bitácora.
+        </p>
+    </div>
+    <div class="tooltip" id="tooltip6">
+        <span class="close" onclick="closeTooltip()">&times;</span>
+        <p>
+            <strong>⚠️Riesgo: </strong> Estudiantes delegan todo el juicio crítico en la IA, perdiendo
+            habilidades de redacción y cita.<br><br>
+            <strong>✅Práctica: </strong> Combinar el uso de detectores con talleres de formación en pensamiento
+            crítico y técnicas de citación.
+        </p>
+    </div>
+    <div class="tooltip" id="tooltip7">
+        <span class="close" onclick="closeTooltip()">&times;</span>
+        <p>
+            <strong>⚠️Riesgo: </strong> Una alta dependencia de herramientas automáticas puede fomentar una
+            cultura
+            centrada en “no ser detectado” más que en aprender buenas prácticas de citación, convirtiendo el
+            proceso en un ejercicio de cumplimiento normativo eficiente pero vacío de sentido educativo.<br><br>
+            <strong>✅Práctica: </strong> Integrar el detector como herramienta formativa, proporcionando
+            reportes
+            detallados de similitud acompañados de guías de mejora, y vinculándolo a actividades de
+            retroalimentación donde el estudiante revise y aprenda a citar correctamente antes de entregar la
+            versión final.
+        </p>
     </div>
 
     <button id="otherDataBtn" onclick="toggleOtherData()">Ver información adicional</button>
@@ -383,7 +394,7 @@
             científicos en una tabla de Excel, sistematizando temas como sesgos lingüísticos, privacidad de datos,
             transparencia y necesidad de supervisión humana.
         </p>
-        <a href="assets/10 Articulos cientificos.xlsx" class="download-link" download>
+        <a href="assets/10 Articulos cientificos.xlsx" class="download-link" target="_blank" rel="noopener">
             📥 Descargar tabla de 10 artículos (Excel)
         </a>
 
@@ -398,7 +409,7 @@
             tecnologías, sino también proponer lineamientos innovadores que fortalezcan la integridad académica y
             promuevan prácticas éticas responsables en la evaluación de trabajos universitarios.</p>
         <p>Consulta el <strong>Doc. Completo</strong> de la propuesta de investigación:
-            <a href="assets/PropuestaInvestigación.pdf" class="download-link" download>
+            <a href="assets/PropuestaInvestigación.pdf" class="download-link" target="_blank" rel="noopener">
                 📥 Descargar propuesta de investigación completo (PDF)
             </a>
         </p><br>
@@ -409,7 +420,7 @@
 
         <h1>Repositorio en GitHub</h1>
         <p>Clona nuestro repositorio para obtener todo el código fuente, estilos y documentos de apoyo:</p>
-        <a href="https://github.com/brandonsh9/infograf-a-plagio-ia/tree/main" target="_blank">
+        <a href="https://github.com/brandonsh9/infograf-a-plagio-ia/tree/main" target="_blank" rel="noopener">
             🔗 github.com/brandonsh9/infograf-a-plagio-ia
         </a>
         <p>Autor: Brandon Sebastián Hurtado García (bhurtadog20a@udenar.edu.co)</p>
@@ -423,7 +434,6 @@
     </footer>
 
     <script>
-
         const root = document.documentElement;
         const btn = document.getElementById('themeToggle');
         btn.addEventListener('click', () => {
@@ -432,10 +442,26 @@
             btn.textContent = isDark ? '🌙' : '☀️';
         });
 
-
         function toggleTooltip(id) {
-            document.getElementById(id).classList.toggle('active');
+            const tooltip = document.getElementById(id);
+            const overlay = document.getElementById('overlay');
+
+            const isActive = tooltip.classList.contains('active');
+            document.querySelectorAll('.tooltip').forEach(el => el.classList.remove('active'));
+
+            if (!isActive) {
+                tooltip.classList.add('active');
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
+            }
         }
+
+        function closeTooltip() {
+            document.querySelectorAll('.tooltip').forEach(el => el.classList.remove('active'));
+            document.getElementById('overlay').classList.remove('active');
+        }
+
         function toggleOtherData() {
             const section = document.getElementById('otherData');
             const btn = document.getElementById('otherDataBtn');
@@ -447,6 +473,8 @@
                 btn.textContent = 'Ocultar información adicional';
             }
         }
+
+
     </script>
 </body>
 

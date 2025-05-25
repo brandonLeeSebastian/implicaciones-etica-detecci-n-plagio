@@ -29,16 +29,22 @@
                 top: 50%;
                 transform: translate(-50%, -50%);
             }
+        }
 
-            body::before {
-                content: "Modo móvil activo";
-                display: block;
-                background: yellow;
-                color: black;
-                text-align: center;
-                padding: 0.5rem;
-                font-weight: bold;
+        @keyframes fadeInZoom {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
             }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .tooltip.active {
+            animation: fadeInZoom 0.3s ease forwards;
         }
 
         :root {
@@ -56,6 +62,7 @@
             --card-title-color: #0078D7;
             --btn-bg: #0078D7;
             --btn-bg-hover: #E81123;
+            --card-focus-text: #c91f1f;
         }
 
         html[data-theme="dark"] {
@@ -139,6 +146,13 @@
             border-left: 5px solid transparent;
             width: 90%;
             max-width: 1250px;
+
+            outline: none;
+        }
+
+        .card:focus {
+            border-left: 5px solid var(--card-hover-border);
+            box-shadow: 0 0 0 3px rgba(0, 120, 215, 0.3);
         }
 
         .card:hover {
@@ -188,6 +202,12 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: var(--tooltip-color);
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         .overlay {
@@ -274,6 +294,16 @@
             user-select: none;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
         }
+
+        .card:focus {
+            border-left: 5px solid var(--card-hover-border);
+            box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .card:focus h2 {
+            color: var(--card-focus-text);
+        }
     </style>
 </head>
 
@@ -285,25 +315,28 @@
     </header>
 
     <div class="container">
-        <div class="card" onclick="toggleTooltip('tooltip1')">
+        <!-- <div class="card" onclick="toggleTooltip('tooltip1')"> -->
+        <div class="card" onclick="toggleTooltip('tooltip1')" tabindex="0" role="button"
+            aria-label="Abrir diálogo sobre Discriminación Lingüística">
+
             <h2>🌐 Discriminación Lingüística</h2>
         </div>
-        <div class="card" onclick="toggleTooltip('tooltip2')">
+        <div class="card" onclick="toggleTooltip('tooltip2')" tabindex="0" role="button" aria-label="Abrir diálogo ">
             <h2>❌ Errores de Detección</h2>
         </div>
-        <div class="card" onclick="toggleTooltip('tooltip3')">
+        <div class="card" onclick="toggleTooltip('tooltip3')" tabindex="0" role="button" aria-label="Abrir diálogo ">
             <h2>🔒 Protección de la Privacidad Estudiantil</h2>
         </div>
-        <div class="card" onclick="toggleTooltip('tooltip4')">
+        <div class="card" onclick="toggleTooltip('tooltip4')" tabindex="0" role="button" aria-label="Abrir diálogo ">
             <h2>🔍 Transparencia Algorítmica</h2>
         </div>
-        <div class="card" onclick="toggleTooltip('tooltip5')">
+        <div class="card" onclick="toggleTooltip('tooltip5')" tabindex="0" role="button" aria-label="Abrir diálogo ">
             <h2>👩‍🏫 Responsabilidad Docente</h2>
         </div>
-        <div class="card" onclick="toggleTooltip('tooltip6')">
+        <div class="card" onclick="toggleTooltip('tooltip6')" tabindex="0" role="button" aria-label="Abrir diálogo ">
             <h2>🤖 Dependencia Tecnológica</h2>
         </div>
-        <div class="card" onclick="toggleTooltip('tooltip7')">
+        <div class="card" onclick="toggleTooltip('tooltip7')" tabindex="0" role="button" aria-label="Abrir diálogo ">
             <h2>🎯 Enfoque en Cumplimiento en Lugar de Aprendizaje</h2>
         </div>
     </div>

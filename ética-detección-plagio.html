@@ -10,6 +10,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Responsive */
+        @media (max-width:600px) {
+
+            html {
+                font-size: 14px;
+                /* 14px */
+            }
+
+            header h1 {
+                font-size: 2rem;
+                /* 28px */
+            }
+
+            p {
+                font-size: 1rem;
+                /* 14px */
+                /* text-align: justify; */
+            }
+
+            .tooltip {
+                top: 80px;
+            }
+        }
+
+
         :root {
             --header-start: #0078D7;
             --header-end: #E81123;
@@ -125,7 +150,7 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        .tooltip {
+        /* .tooltip {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -141,7 +166,29 @@
             opacity: 0;
             pointer-events: none;
             transition: all 0.3s ease;
+        } */
+
+        .tooltip {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scale(0.9);
+            margin: auto 0;
+            background: var(--tooltip-bg);
+            color: var(--tooltip-color);
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-width: 90%;
+            width: 500px;
+            height: max-content;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.3s ease;
         }
+
 
         .tooltip.active {
             opacity: 1;
@@ -241,32 +288,6 @@
             border-top: 1px solid #e0e0e0;
             user-select: none;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)
-        }
-
-
-
-        /* Responsive */
-        @media (max-width:600px) {
-
-            html {
-                font-size: 14px;
-                /* 14px */
-            }
-
-            header h1 {
-                font-size: 2rem;
-                /* 28px */
-            }
-
-            p {
-                font-size: 1rem;
-                /* 14px */
-                /* text-align: justify; */
-            }
-
-            .tooltip {
-                top: 80px;
-            }
         }
     </style>
 </head>
